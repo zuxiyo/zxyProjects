@@ -1,24 +1,23 @@
-<#include "../_layouts/components/areaLevelDropDownList.ftl">
+<#include "../_layouts/components/AreaLevelDropDownList.ftl">
+<#include "../_layouts/components/CountriesDropDownList.ftl">
+<#include "../_layouts/components/AreasSelectDialog.ftl">
 
 <div class="container-fluid"> 
 	<form class="form-horizontal" role="form" id="areaForm">
 	   <div class="form-group"> 
 	        <label class="col-sm-2 control-label" for="countyCode">国别</label>
 	        <div class="col-sm-10">
-	       	    <select class="form-control" id="countyCode" name="countyCode"></select>
+	       	    <@CountriesDropDownList id="countryCode" dataSource=(countries)! selected="${(model.countryCode)!}" class="form-control"/>
 	        </div> 
 	    </div>
 	   
 	   <div class="form-group">
 	        <label for="parentCode" class="col-sm-2 control-label">上级区划</label>
-	        <div class="col-sm-4">
-	        	<select class="form-control" id="parentCode" name="parentCode"></select>
-	        </div>
-	        <label for="sort" class="col-sm-2 control-label">排序号</label>
-		        <div class="col-sm-4">
-		        	<input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序号" value="${(model.sort)!}">
-	        </div>
-	    </div>  
+	        <div class="col-sm-10">
+	        	<@AreasSelectDialog id="parentCode"  countryDropDownListId="countryCode" selected="${(model.parentCode)!}"
+	        	 fullPositionCode="positionCode" fullPositionName="positionName"/>
+	        </div>	        
+	    </div>
 	 	<div class="form-group"> 
 	        <label for="areaCode" class="col-sm-2 control-label">区划代码</label>
 	        <div class="col-sm-4"> 
@@ -29,20 +28,30 @@
 	        	<input type="text" class="form-control" id="areaName" name="areaName" placeholder="请输入排序号" value="${(model.areaName)!}">
 	        </div>
 	    </div> 
+	    <div class="form-group">
+	    	<label for="shortName" class="col-sm-2 control-label">区划简称</label>
+		    <div class="col-sm-4">
+		        <input type="text" class="form-control" id="shortName" name="shortName" placeholder="请输入区划简称" value="${(model.shortName)!}">
+	        </div>
+	    	<label for="sort" class="col-sm-2 control-label">排序号</label>
+		    <div class="col-sm-4">
+		        <input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序号" value="${(model.sort)!}">
+	        </div>
+	    </div>
 	    <div class="form-group"> 
 	        <label class="col-sm-2 control-label" for="fullName">区划全称</label>
 	        <div class="col-sm-4">
-	        	<input type="text" class="form-control" id="fullName" placeholder="请输入区划完整名称" value="${(model.fullName)!}"> 
+	        	<input type="text" class="form-control" id="fullName"  value="${(model.fullName)!}"> 
 	        </div>
 	        <label for="areaLevel" class="col-sm-2 control-label">行政级别</label>
 	        <div class="col-sm-4">
-	        	<@areaLevelSelect id="areaLevel" selected="${(model.areaLevel)!}"/>
+	        	<@AreaLevelDropDownList id="areaLevel" selected="${(model.areaLevel)!}"/>
 	        </div>
 	    </div>
 	    <div class="form-group"> 
 	        <label class="col-sm-2 control-label" for="englishName">英文名称</label>
 	        <div class="col-sm-10">
-	       	    <input type="text" class="form-control" id="englishName" placeholder="请输入机构英文名称" value="${(model.englishName)!}"/>
+	       	    <input type="text" class="form-control" id="englishName"  value="${(model.englishName)!}"/>
 	        </div> 
 	    </div>
 	    <div class="form-group"> 

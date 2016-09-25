@@ -74,18 +74,28 @@ public class DictionaryService {
 	 * 获得全部数据字典项
 	 * @return 全部数据字典项的集合
 	 */
-	public Page<DictionaryItemInfo> getItemPageByCategoryCode(Pageable pageable,String categoryCode){
-		Page<DictionaryItemInfo> page = dataItemsDao.findByCategoryCode(pageable,categoryCode);	
+	public Page<DictionaryItemInfo> getItemPageByCategoryCode(Pageable pageable,String categoryCode){		
+		Page<DictionaryItemInfo> page = dataItemsDao.findByCategoryCodeOrderBySortAsc(pageable,categoryCode);	
 		return page;
 	}
 
 	/**
-	 * @param dictionaryCode
+	 * 
+	 * @param categoryCode
 	 * @return
 	 */
-	public Iterable<DictionaryItemInfo> getItemDataByCategoryCode(String categoryCode) {
-		Iterable<DictionaryItemInfo> list = dataItemsDao.findByCategoryCode(categoryCode);
+	public Iterable<DictionaryItemInfo> getItemDataByCategoryCode(String categoryCode) {		
+		Iterable<DictionaryItemInfo> list = dataItemsDao.findByCategoryCodeOrderBySortAsc(categoryCode);
 		return list;
+	}
+	
+	/**
+	 * 获得字典项
+	 * @param categoryCode
+	 * @return
+	 */
+	public Iterable<DictionaryItemInfo> getDictionary(String categoryCode) {		
+		return getItemDataByCategoryCode(categoryCode);
 	}
 	
 	/**
@@ -107,4 +117,5 @@ public class DictionaryService {
 		}
 		return result;	
 	}
+	
 }

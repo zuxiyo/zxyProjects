@@ -21,7 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zxy.admin.controllers.utils.DataTablesPageable;
 import com.zxy.admin.controllers.utils.DataTablesUtil;
 import com.zxy.admin.entities.AreaInfo;
+import com.zxy.admin.entities.CountryInfo;
+import com.zxy.admin.entities.queries.AreaQueryInfo;
 import com.zxy.admin.services.AreasService;
+import com.zxy.admin.services.CountriesService;
 import com.zxy.admin.utils.FormResult;
 
 /**
@@ -36,13 +39,20 @@ public class AreasController {
 	@Autowired
 	private AreasService areasService;
 	
+	@Autowired
+	private CountriesService countriesService;
+	
 	/**
 	 * 行政区划设置主页
 	 * @return 
 	 */
 	@RequestMapping("/index")
-	public String index(){
-		return "areas/areaIndex";
+	public ModelAndView index(){
+		Iterable<CountryInfo> countries = countriesService.getAllCountries();
+
+		ModelAndView view = new ModelAndView("areas/areaIndex");
+		view.addObject("countries", countries);
+		return view;
 	}
 	
 	/**
@@ -50,8 +60,12 @@ public class AreasController {
 	 * @return 
 	 */
 	@RequestMapping("/addView")
-	public ModelAndView addView(){
-		ModelAndView view = new ModelAndView("areas/areaEdit");	
+	public ModelAndView addView() {
+
+		Iterable<CountryInfo> countries = countriesService.getAllCountries();
+
+		ModelAndView view = new ModelAndView("areas/areaEdit");
+		view.addObject("countries", countries);
 		return view;
 	}
 	
@@ -63,9 +77,11 @@ public class AreasController {
 	public ModelAndView editView(HttpServletRequest request, HttpServletResponse response,@RequestParam String areaCode){
 		
 		AreaInfo info = areasService.getEntity(areaCode);
+		Iterable<CountryInfo>  countries = countriesService.getAllCountries();
 		
 		ModelAndView view = new ModelAndView("areas/areaEdit");				
 		view.addObject("model", info);  
+		view.addObject("countries",countries);
 		return view;
 	}
 	
@@ -78,9 +94,13 @@ public class AreasController {
 	 */
 	@RequestMapping("/getPageList")
 	@ResponseBody
-	public DataTablesPageable getPageList(HttpServletRequest request, HttpServletResponse response){
+	public DataTablesPageable getPageList(HttpServletRequest request, HttpServletResponse response,AreaQueryInfo queryInfo){
 		Pageable pageable = DataTablesUtil.getPageable(request);
-		Page<AreaInfo> page = areasService.getPageList(pageable);
+		Page<AreaInfo> page;
+		if(queryInfo == null)
+			page = areasService.getPageList(pageable);
+		else 
+			page = areasService.getPageList(pageable,queryInfo);
 		DataTablesPageable dataTables = DataTablesUtil.ConvertToDataTablesPageable(request,page);
 		return dataTables;
 	}
@@ -153,4 +173,31 @@ public class AreasController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 通过国家代码获得省一级的行政区划
+	 * @param request
+	 * @param response
+	 * @param countryCode
+	 * @return
+	 */
+	@RequestMapping("/getProvinceAreasByCountyCode")
+	@ResponseBody
+	public Iterable<AreaInfo> getProvinceAreasByCountyCode(HttpServletRequest request, HttpServletResponse response,String countryCode){
+		return areasService.getProvinceAreasByCountyCode(countryCode);
+	}
+	
+	/**
+	 * 通过父级行政区划代码获得子级行政区划
+	 * @param request
+	 * @param response
+	 * @param parentCode
+	 * @return
+	 */
+	@RequestMapping("/getAreasByParentCode")
+	@ResponseBody
+	public Iterable<AreaInfo> getAreasByParentCode(HttpServletRequest request, HttpServletResponse response,String parentCode){
+		return areasService.getAreasByParentCode(parentCode);
+	}
+	
 }

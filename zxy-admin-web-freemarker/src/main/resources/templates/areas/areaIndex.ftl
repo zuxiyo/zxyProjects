@@ -1,5 +1,6 @@
 <#include "../_layouts/layout.ftl">
-<@header title="数据字典">
+<#include "../_layouts/components/CountriesDropDownList.ftl">
+<@header title="行政区划管理">
 	<link href="//cdn.bootcss.com/datatables/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
 	<script src="//cdn.bootcss.com/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 	
@@ -19,27 +20,28 @@
 </div>
 </section>
 <section class="content">
-	<div class="box box-default">	
-		   <div class="box-header">  
-		     <form class="form-horizontal" role="form"> 
-			    <div class="form-group"> 
-			        <label class="col-sm-1 control-label" for="ddlName" >选择单位 </label> 
-			        <div class="col-sm-2">
-			        	<select id="ddlName" class="form-control">
-	                       <option>禁止选择</option>
-	                       <option>禁止选择</option>
-	                    </select>
-			        </div>
-			        <label class="col-sm-1 control-label" for="inputfile">名称</label>
-			        <div class="col-sm-2"> 
-			        	<input type="text" class="form-control" id="inputfile" placeholder="请输入名称">
-			        </div>
-			   		<div class="col-sm-3"> 
-			    		<button type="submit" class="btn btn-default"> 查 询 </button>
-			    	</div>
-			    </div>
+	<div class="box box-default">
+		<div class="box-header">
+			<form class="form-horizontal" role="form" id="queryForm">
+				<div class="form-group">
+					<label class="col-sm-1 control-label" for="query-countyCode">国别 </label>
+					<div class="col-sm-2">		
+						<@CountriesDropDownList id="query-countryCode" name="countryCode" dataSource=(countries)! class="form-control"/>
+					</div>
+					<label class="col-sm-1 control-label" for="query-areaCode">代码</label> 
+				    <div class="col-sm-2">
+						<input type="text" class="form-control" id="query-areaCode" name="areaCode" placeholder="请输入名称"/>
+					</div>
+				    <label class="col-sm-1 control-label" for="query-areaName">名称</label> 
+				    <div class="col-sm-2">
+						<input type="text" class="form-control" id="query-areaName" name="areaName" placeholder="请输入名称"/>
+					</div>
+				    <div class="col-sm-3">
+					    <button type="button" class="btn btn-default" id="btnQuery">查 询</button>
+					</div>
+				</div>
 			</form>
-	  	</div>
+		</div>
 		<div class="box-body">
 	     	<table id="dataTable" class="table table-striped table-bordered table-hover table-condensed">
 	     	 <thead>
@@ -71,8 +73,8 @@ var _dataTable;
 $(document).ready(function() {
     $("#btnAdd").click( function () {
         $("#popupDialog").load('addView').dialog({
-            height: 470,
-            width: 650,
+        	height: 570,
+            width: 700,
             title: '新增行政区划',
             modal: true,
             position: {
@@ -140,13 +142,20 @@ $(document).ready(function() {
     }));
      //激活提示框
     $("[data-toggle='tooltip']").tooltip();
+    
+    $('#btnQuery').on("click",(function(){   	
+    	var _json = $('#queryForm').serialize();
+    	var url = "getPageList?" + _json;
+    	console.log(url);
+    	_dataTable.ajax.url(url).load();
+    }));   
 });
 
 function _edit(areaCode){
 	var url = "editView?areaCode=" + areaCode;
 	$("#popupDialog").load(url).dialog({
-		height: 470,
-        width: 650,
+		height: 570,
+        width: 700,
         title: '修改行政区划',
         modal: true,
         position: {

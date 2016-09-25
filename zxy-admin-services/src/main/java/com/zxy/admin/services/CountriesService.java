@@ -110,4 +110,14 @@ public class CountriesService {
 	public CountryInfo getEntity(String countryCode) {	
 		return countryDao.findOne(countryCode);
 	}
+
+	/**
+	 * 获得所有的国家
+	 * @return 所有国家列表
+	 */
+	public Iterable<CountryInfo> getAllCountries() {
+		Order[] order = { new Order(Direction.ASC,"countryCode"), new Order(Direction.ASC,"sort")};
+		Sort sort = new Sort(order);
+		return countryDao.findAll(sort);
+	}
 }

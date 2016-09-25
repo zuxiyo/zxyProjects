@@ -24,11 +24,11 @@ public interface IDictionaryItemsDao extends PagingAndSortingRepository<Dictiona
 	 * @param pageable
 	 * @return
 	 */
-	Page<DictionaryItemInfo> findByCategoryCode(Pageable pageable,String categoryCode);
+	Page<DictionaryItemInfo> findByCategoryCodeOrderBySortAsc(Pageable pageable,String categoryCode);
 
 	/**
-	 * @param dictionaryCode
+	 * @param dictionaryCod
 	 */
-	Iterable<DictionaryItemInfo> findByCategoryCode(String categoryCode);
+	Iterable<DictionaryItemInfo> findByCategoryCodeOrderBySortAsc(String categoryCode);
 
 }

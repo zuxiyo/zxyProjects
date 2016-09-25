@@ -20,8 +20,8 @@
   <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">    
   <!-- jquery ui -->
-  <link href="//cdn.bootcss.com/jqueryui/1.12.0/jquery-ui.min.css" rel="stylesheet">
-  <script src="//cdn.bootcss.com/jqueryui/1.12.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
   <!-- AdminLTE -->
   <link rel="stylesheet" href="/libs/adminlte/css/AdminLTE.min.css">
   <link rel="stylesheet" href="/libs/adminlte/css/skins/skin-blue.min.css">

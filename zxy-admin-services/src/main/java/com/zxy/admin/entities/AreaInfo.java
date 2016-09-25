@@ -30,11 +30,20 @@ public class AreaInfo {
 	@Column(name="full_name")
 	private String fullName;
 	
+	@Column(name="short_name")
+	private String shortName;
+	
 	@Column(name="english_name")
 	private String englishName;
 	
 	@Column(name="parent_code")
 	private String parentCode;
+	
+	@Column(name="position_code")
+	private String positionCode;
+	
+	@Column(name="position_name")
+	private String positionName;
 	
 	@Column(name="lng")
 	private String lng;
@@ -93,6 +102,22 @@ public class AreaInfo {
 	}
 
 	/**
+	 * 简称
+	 * @return the shortName
+	 */
+	public String getShortName() {
+		return shortName;
+	}
+
+	/**
+	 * 简称
+	 * @param shortName the shortName to set
+	 */
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	/**
 	 * 行政区划完整名称
 	 * @return the fullName
 	 */
@@ -140,6 +165,37 @@ public class AreaInfo {
 		this.parentCode = parentCode;
 	}
 
+	/**
+	 * 完整的位置 代码
+	 * @return the positionCode
+	 */
+	public String getPositionCode() {
+		return positionCode;
+	}
+
+	/**
+	 * 完整的位置 代码
+	 * @param positionCode the positionCode to set
+	 */
+	public void setPositionCode(String positionCode) {
+		this.positionCode = positionCode;
+	}
+
+	/**
+	 * 完整的位置 名称
+	 * @return the positionName
+	 */
+	public String getPositionName() {
+		return positionName;
+	}
+
+	/**
+	 * 完整的位置 名称
+	 * @param positionName the positionName to set
+	 */
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
+	}
 	/**
 	 * 经度 
 	 * @return the lng

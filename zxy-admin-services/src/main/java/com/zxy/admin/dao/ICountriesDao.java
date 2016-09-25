@@ -15,6 +15,5 @@ import com.zxy.admin.entities.CountryInfo;
  * @author Zhu XiYong 
  * @Date 2016年9月12日下午1:53:59
  */
-public interface ICountriesDao extends PagingAndSortingRepository<CountryInfo,String> {
-
+public interface ICountriesDao extends PagingAndSortingRepository<CountryInfo,String> {	
 }
