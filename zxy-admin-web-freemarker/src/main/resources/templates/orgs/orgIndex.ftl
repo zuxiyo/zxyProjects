@@ -1,7 +1,10 @@
 <#include "../_layouts/layout.ftl">
 <@header title="组织管理">
 	<link  href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
-	<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>	
+	<script src="/libs/dataTables/dataTablesUitl.js"></script>
+	<script src="//cdn.bootcss.com/zTree.v3/3.5.24/js/jquery.ztree.all.js"></script>
+	<link href="//cdn.bootcss.com/zTree.v3/3.5.24/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet">
 </@header>
 <@body>
 <section class="content-header"> 
@@ -473,16 +476,7 @@
   $(function () {
     $("#example1").DataTable();
     $("#btnAdd").click( function () {
-        $("#popupDialog").load('add').dialog({
-            height: 570,
-            width: 800,
-            title: '组织机构新增',
-            modal: true,
-            position: {
-                my: 'center',
-                at: 'center'
-            }
-        });
+    	zxy.admin.DataTables.loadDialog("addView","popupDialog","组织机构新增",800,620);
     });
   });
  </script>

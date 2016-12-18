@@ -18,7 +18,7 @@
       </div>      
       <label for="englishName" class="col-sm-2 control-label">英文简称</label>
       <div class="col-sm-4">
-         <input type="text" class="form-control" id="englichName" name="englishName" placeholder="请输入国家或地区的英文简称" value="${model.englishName}">
+         <input type="text" class="form-control" id="englishName" name="englishName" placeholder="请输入国家或地区的英文简称" value="${model.englishName}">
       </div>
    </div>
    <div class="form-group">
@@ -48,7 +48,7 @@
    </div>
    <hr class="divider"/>
    <div class="form-group">
-	   <div class="col-sm-offset-2 col-sm-5">
+	   <div class="col-sm-offset-3 col-sm-4">
 		 <a class="btn btn-primary btn-sm" href="javascript:void(0)" id="btnUpdate"><i class="fa fa-save"></i> 更新</a>
        </div>
        <div class="col-sm-5"> 

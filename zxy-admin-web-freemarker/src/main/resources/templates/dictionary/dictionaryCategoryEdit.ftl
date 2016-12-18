@@ -3,26 +3,30 @@
    <div class="form-group">
       <label for="sort" class="col-sm-2 control-label">排序号</label>
       <div class="col-sm-10">
-         <input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序号">
+         <input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序号" value="${(model.sort)!}"/>
       </div>
    </div>
    <div class="form-group">
       <label for="categoryCode" class="col-sm-2 control-label">编码</label>
       <div class="col-sm-10">
-         <input type="text" class="form-control" id="categoryCode" name="categoryCode" placeholder="请输入种类编号/代码">
+         <input type="text" class="form-control" id="categoryCode" name="categoryCode" placeholder="请输入种类编号/代码" value="${(model.categoryCode)!}"/>
       </div>
    </div>
    <div class="form-group">
       <label for="categoryName" class="col-sm-2 control-label">名称</label>
       <div class="col-sm-10">
-         <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="请输入种类名称">
+         <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="请输入种类名称" value="${(model.categoryName)!}"/>
       </div>
    </div>
    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
          <div class="checkbox">
             <label>
-               <input type="checkbox" id="status" name="status">  禁用
+               <#if model??>
+	               	  <input type="checkbox" id="status" name="status" <#if model.status == true > checked </#if> />禁用
+	           <#else>
+	                  <input type="checkbox" id="status" name="status" />禁用
+	           </#if>
             </label>
          </div>
       </div>
@@ -30,7 +34,7 @@
    <div class="form-group">
       <label for="remark" class="col-sm-2 control-label">备注</label>
       <div class="col-sm-10">
-         <textarea class="form-control" rows="2" id="remark" name="remark"></textarea>
+         <textarea class="form-control" rows="2" id="remark" name="remark">${(model.remark)!}</textarea>
       </div>
    </div>
    <hr class="divider"/>

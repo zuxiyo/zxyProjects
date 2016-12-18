@@ -1,6 +1,6 @@
 <div class="container-fluid"> 
 <form class="form-horizontal" role="form" id="addItemForm">
-   <input type="hidden" id="categoryCode" name="categoryCode"/>
+   <input type="text" id="categoryCode" name="categoryCode" value="${(model.categoryCode)!}"/>
    <div class="form-group">
       <label for="parentCode" class="col-sm-2 control-label">所属上级</label>
       <div class="col-sm-10">
@@ -10,32 +10,36 @@
    <div class="form-group">
       <label for="sort" class="col-sm-2 control-label">排序号</label>
       <div class="col-sm-10">
-         <input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序号">
+         <input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序号" value="${(model.sort)!}"/>
       </div>
    </div>
    <div class="form-group">
       <label for="dictionaryCode" class="col-sm-2 control-label">字典项代码</label>
       <div class="col-sm-10">
-         <input type="text" class="form-control" id="dictionaryCode" name="dictionaryCode"  placeholder="请输入字典项代码">
+         <input type="text" class="form-control" id="dictionaryCode" name="dictionaryCode"  placeholder="请输入字典项代码" value="${(model.dictionaryCode)!}"/>
       </div>
    </div>
    <div class="form-group">
       <label for="dictionaryName" class="col-sm-2 control-label">字典项名称</label>
       <div class="col-sm-10">
-         <input type="text" class="form-control" id="dictionaryName" name="dictionaryName" placeholder="请输入字典项名称">
+         <input type="text" class="form-control" id="dictionaryName" name="dictionaryName" placeholder="请输入字典项名称" value="${(model.dictionaryName)!}"/>
       </div>
    </div>
    <div class="form-group">
       <label for="lastname" class="col-sm-2 control-label">备注</label>
       <div class="col-sm-10">
-         <textarea class="form-control" rows="2" id="remark" name="remark"></textarea>
+         <textarea class="form-control" rows="2" id="remark" name="remark">${(model.remark)!}</textarea>
       </div>
    </div>
    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
          <div class="checkbox">
             <label>
-               <input type="checkbox" id="status" name="status">禁用
+              <#if model??>
+	               	  <input type="checkbox" id="status" name="status" <#if model.status == true > checked </#if> />禁用
+	           <#else>
+	                  <input type="checkbox" id="status" name="status" />禁用
+	           </#if>
             </label>
          </div>
       </div>

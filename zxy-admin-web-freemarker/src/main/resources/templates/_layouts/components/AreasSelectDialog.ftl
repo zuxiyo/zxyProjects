@@ -72,7 +72,7 @@ fullPositionName	  : 完整的位置Name信息控件ID好。
 						
 			var countryCode = $("#${countryDropDownListId}").val();
 			if(countryCode != ""){
-				setAreas("getProvinceAreasByCountyCode", {"countryCode" : countryCode}, $("#province"));
+				setAreas("/areas/getProvinceAreasByCountyCode", {"countryCode" : countryCode}, $("#province"));
 			}else{
 				clearTips();
 				clearAllContent();
@@ -129,7 +129,7 @@ fullPositionName	  : 完整的位置Name信息控件ID好。
 		function liMouseOver() {
 			var parentCode = $(this).data("code");
 			var nextUlElement = getNextToggleUlElementByLi(this);
-			setAreas("getAreasByParentCode", {"parentCode" : parentCode}, nextUlElement);
+			setAreas("/areas/getAreasByParentCode", {"parentCode" : parentCode}, nextUlElement);
 		}
 
 		function getNextToggleUlElementByLi(liElement) {
@@ -169,7 +169,7 @@ fullPositionName	  : 完整的位置Name信息控件ID好。
 					var nextUlElement = getNextToggleUlElementByLi(this);
 					//console.log(nextElement.text());
 					if (nextUlElement.text() == "")  
-						liMouseOver.apply(this);// 普通函数调用时使用apply传递this指针，liMouseOver为回调函数。
+						liMouseOver.apply(this);// 回调函数作为普通函数调用时使用apply传递this指针，liMouseOver为回调函数。
 
 					setTips($(this).data("code"),$(this).text());
 
@@ -190,7 +190,6 @@ fullPositionName	  : 完整的位置Name信息控件ID好。
 					var areaNames = "";
 					var level = "-1";
 					$.each(r, function(i, value) {
-						//areaNames += '<li rel="popover" data-code="' + value.areaCode + '">'+ value.areaName + '</li>';
 						areaNames += '<li data-code="' + value.areaCode + '">' + value.areaName + '</li>';
 						
 						if(level == "-1")  //获得本次级别数据
@@ -201,7 +200,7 @@ fullPositionName	  : 完整的位置Name信息控件ID好。
 					var i = 1;
 					while(showUlCtrl.length > 0 && showUlCtrl.data("level") != level){
 						showUlCtrl = getNextToggleUlElementByUl(showUlCtrl);
-						console.log(i);
+						//console.log(i);
 						if (i++ == 100) //防止进入死循环
 							break;
 					}
@@ -241,18 +240,16 @@ fullPositionName	  : 完整的位置Name信息控件ID好。
 		function setTips(code,text){
 			if ($("#fullTips").text() != ""){
 				$("#fullTips").append("→");
-				$("#${fullPositionCode}").append("→");
-				$("#${fullPositionName}").append("→");
+				$("#${fullPositionCode}").val( $("#${fullPositionCode}").val() + "→");
+				$("#${fullPositionName}").val( $("#${fullPositionName}").val() + "→");
 				
 			}
 			$("#fullTips").append(text);
-			$("#${fullPositionCode}").append(code);
-			$("#${fullPositionName}").append(text);
+			$("#${fullPositionCode}").val( $("#${fullPositionCode}").val() + code);
+			$("#${fullPositionName}").val( $("#${fullPositionName}").val() + text);
 			
 			$("#${id}").val(code);
 			
-			//显示最后的选择项
-			//$("#dropdownText").text(text);
 			//显示完整的选择项
 			$("#dropdownText").text($("#${fullPositionName}").text());
 		}

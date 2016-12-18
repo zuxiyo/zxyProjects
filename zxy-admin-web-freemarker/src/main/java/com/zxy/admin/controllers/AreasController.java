@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.zxy.admin.AdminWebProperties;
 import com.zxy.admin.controllers.utils.DataTablesPageable;
 import com.zxy.admin.controllers.utils.DataTablesUtil;
 import com.zxy.admin.entities.AreaInfo;
@@ -42,6 +43,8 @@ public class AreasController {
 	@Autowired
 	private CountriesService countriesService;
 	
+	@Autowired
+	private AdminWebProperties myProperties;
 	/**
 	 * 行政区划设置主页
 	 * @return 
@@ -59,13 +62,14 @@ public class AreasController {
 	 * 行政区划设置新增页面
 	 * @return 
 	 */
-	@RequestMapping("/addView")
-	public ModelAndView addView() {
+	@RequestMapping("/newView")
+	public ModelAndView newView() {
 
 		Iterable<CountryInfo> countries = countriesService.getAllCountries();
 
 		ModelAndView view = new ModelAndView("areas/areaEdit");
 		view.addObject("countries", countries);
+		view.addObject("defaultCountryCode", myProperties.getDefaultCountryCode());
 		return view;
 	}
 	
@@ -112,9 +116,9 @@ public class AreasController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/save")
+	@RequestMapping("/add")
 	@ResponseBody
-	public FormResult save(HttpServletRequest request, HttpServletResponse response,AreaInfo model){		
+	public FormResult add(HttpServletRequest request, HttpServletResponse response,AreaInfo model){		
 		FormResult result = new FormResult();
 		try {
 			areasService.add(model);

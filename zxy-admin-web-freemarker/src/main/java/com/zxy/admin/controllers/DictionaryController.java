@@ -13,15 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.zxy.admin.controllers.utils.DataTablesPageable;
 import com.zxy.admin.controllers.utils.DataTablesUtil;
 import com.zxy.admin.entities.DictionaryCategoryInfo;
 import com.zxy.admin.entities.DictionaryItemInfo;
 import com.zxy.admin.services.DictionaryService;
+import com.zxy.admin.utils.FormResult;
 import com.zxy.admin.utils.TreeNode;
 
 /**
@@ -52,33 +55,100 @@ public class DictionaryController {
 		return "dictionary/dictionaryIndex";
 	}
 
-	/* (non-Javadoc)
-	 * @see com.zxy.admin.web.controllers.IControllerContract#add()
+	/**
+	 * 新增数据字典种类
+	 * @return view 名称
 	 */
 	@RequestMapping("/addCategoryView")
 	public String addCategoryView() {
 		return "dictionary/dictionaryCategoryEdit";
 	}
 	
+	/**
+	 * 修改数据字典种类
+	 * @param request
+	 * @param response
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping("/editCategoryView")
+	public ModelAndView editCategoryView(HttpServletRequest request, HttpServletResponse response,@RequestParam String uid){
+		
+		DictionaryCategoryInfo info = dictionaryService.getCategoryEntity(uid);		
+		ModelAndView view = new ModelAndView("dictionary/dictionaryCategoryEdit");				
+		view.addObject("model", info);  
+		return view;
+	}	
+	
+	/**
+	 * 删除数据字典种类
+	 * @return
+	 */
+	@RequestMapping("/deleteCategory")
+	@ResponseBody
+	public FormResult deleteCategory(HttpServletRequest request, HttpServletResponse response,String... uid){
+		FormResult result = new FormResult();
+		try{
+			if(uid.length > 1)
+				dictionaryService.deleteCategory(uid);
+			else
+				dictionaryService.deleteCategory(uid[0]);
+			
+			result.setSuccess(true);
+			result.setMessage("删除种类成功！");
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("删除种类失败！" + e.getMessage());
+		}
+		return result;
+	}
+	
+	/**
+	 * 新增数据字典项
+	 * @return
+	 */
 	@RequestMapping("/addItemView")
 	public String addItemView() {
 		return "dictionary/dictionaryItemEdit";
 	}
-
-	/* (non-Javadoc)
-	 * @see com.zxy.admin.web.controllers.IControllerContract#edit()
+	
+	/**
+	 * 修改数据字典项
+	 * @param request
+	 * @param response
+	 * @param uid
+	 * @return
 	 */
-	public String edit() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.zxy.admin.web.controllers.IControllerContract#delete()
+	@RequestMapping("/editItemView")
+	public ModelAndView editItemView(HttpServletRequest request, HttpServletResponse response,@RequestParam String uid){
+		
+		DictionaryItemInfo info = dictionaryService.getItemEntity(uid);		
+		ModelAndView view = new ModelAndView("dictionary/dictionaryItemEdit");				
+		view.addObject("model", info);  
+		return view;
+	}	
+	
+	/**
+	 * 删除数据字典项
+	 * @return
 	 */
-	public String deleteCategory() {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping("/deleteItem")
+	@ResponseBody
+	public FormResult deleteItem(HttpServletRequest request, HttpServletResponse response,String... uid){
+		FormResult result = new FormResult();
+		try{
+			if(uid.length > 1)
+				dictionaryService.deleteItem(uid);
+			else
+				dictionaryService.deleteItem(uid[0]);
+			
+			result.setSuccess(true);
+			result.setMessage("删除种类成功！");
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("删除种类失败！" + e.getMessage());
+		}
+		return result;
 	}
 	
 	/**
@@ -147,11 +217,33 @@ public class DictionaryController {
 	 */
 	@RequestMapping("/saveCategory")
 	@ResponseBody
-	public String saveCategory(HttpServletRequest request, HttpServletResponse response,DictionaryCategoryInfo model){		
-		boolean result = dictionaryService.addCategory(model);
-		if(result)
+	public String saveCategory(HttpServletRequest request, HttpServletResponse response,DictionaryCategoryInfo model){			
+		DictionaryCategoryInfo resultModel = dictionaryService.addCategory(model);
+		if(!StringUtils.isEmpty(resultModel.getUid()))
 			return "保存成功！";
 		return "保存失败！";
+	}
+	
+	/**
+	 * 更新数据字典类别
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/updateCategory")
+	@ResponseBody
+	public FormResult updateCategory(HttpServletRequest request, HttpServletResponse response,DictionaryCategoryInfo model){	
+		FormResult result = new FormResult();
+		try{
+			dictionaryService.updateCategory(model);
+			result.setSuccess(true);
+			result.setMessage("更新成功！");
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("更新失败！" + e.getMessage());
+		}
+		return result;
 	}
 	
 	/**
@@ -169,5 +261,25 @@ public class DictionaryController {
 			return "保存成功！";
 		return "保存失败！";
 	}
-
+	/**
+	 * 更新信息
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/updateItem")
+	@ResponseBody
+	public FormResult updateItem(HttpServletRequest request, HttpServletResponse response,DictionaryItemInfo model){	
+		FormResult result = new FormResult();
+		try{
+			dictionaryService.updateItem(model);
+			result.setSuccess(true);
+			result.setMessage("更新成功！");
+		} catch (Exception e) {
+			result.setSuccess(false);
+			result.setMessage("更新失败！" + e.getMessage());
+		}
+		return result;
+	}
 }

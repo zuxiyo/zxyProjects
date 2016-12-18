@@ -7,7 +7,7 @@
 	   <div class="form-group"> 
 	        <label class="col-sm-2 control-label" for="countyCode">国别</label>
 	        <div class="col-sm-10">
-	       	    <@CountriesDropDownList id="countryCode" dataSource=(countries)! selected="${(model.countryCode)!}" class="form-control"/>
+	       	    <@CountriesDropDownList id="countryCode" dataSource=(countries)! selected="${(model.countryCode)!defaultCountryCode}" class="form-control"/>
 	        </div> 
 	    </div>
 	   
@@ -41,7 +41,7 @@
 	    <div class="form-group"> 
 	        <label class="col-sm-2 control-label" for="fullName">区划全称</label>
 	        <div class="col-sm-4">
-	        	<input type="text" class="form-control" id="fullName"  value="${(model.fullName)!}"> 
+	        	<input type="text" class="form-control" id="fullName"  name="fullName" value="${(model.fullName)!}"> 
 	        </div>
 	        <label for="areaLevel" class="col-sm-2 control-label">行政级别</label>
 	        <div class="col-sm-4">
@@ -51,7 +51,7 @@
 	    <div class="form-group"> 
 	        <label class="col-sm-2 control-label" for="englishName">英文名称</label>
 	        <div class="col-sm-10">
-	       	    <input type="text" class="form-control" id="englishName"  value="${(model.englishName)!}"/>
+	       	    <input type="text" class="form-control" id="englishName" name="englishName"  value="${(model.englishName)!}"/>
 	        </div> 
 	    </div>
 	    <div class="form-group"> 
@@ -61,7 +61,7 @@
 	        </div>
 	        <label for="phoneCode" class="col-sm-2 control-label">电话区号</label>
 	        <div class="col-sm-4"> 
-	        	<input type="text" class="form-control" id="phoneCode" value="${(model.phoneCode)!}"/>
+	        	<input type="text" class="form-control" id="phoneCode" name="phoneCode" value="${(model.phoneCode)!}"/>
 	        </div>        
 	    </div>
 	    <div class="form-group">
@@ -91,11 +91,44 @@
 	    <hr class="divider"/>
 	    <div class="form-group"> 
 	    	<div class="col-sm-2 col-sm-offset-4"> 
-	        	<a class="btn btn-primary btn-sm" href="#"><i class="fa fa-save"></i> 保存</a>
+	        	<a class="btn btn-primary btn-sm" href="javascript:void(0)" id="btnUpdate"><i class="fa fa-save"></i> 保存</a>
 	        </div>
 	        <div class="col-sm-6">
-	        	<a class="btn btn-default btn-sm" href="javascript: $('#popupDialog').dialog('close')"><i class="fa fa-close"></i> 关 闭</a>
+	        	<a class="btn btn-default btn-sm" href="javascript:closeDialog();"><i class="fa fa-close"></i> 关 闭</a>
 	        </div>
 	    </div>
 	</form>
 </div>
+<script type="text/javascript"> 
+function getActionUrl(){
+	if("${(model.areaName)!}".length == 0)
+		return "add";
+	else
+		return "update";
+}
+
+$(function () {
+    $("#btnUpdate").click( function () {
+    	var _json = $('#areaForm').serialize();
+        var request = $.ajax({  
+            url: getActionUrl(),  
+            type: "POST",  
+            async: false,  
+            data: _json,
+            cache: false,  
+            success: function (result, textStatus) {  
+            	if(result.success){
+                    alert(result.message);
+                    reloadGrid();
+                    closeDialog();
+                }else
+		    		alert("error：" + result.message);                       
+            },  
+            error: function (XMLHttpRequest, textStatus, errorThrown) { alert("error：" + XMLHttpRequest.readyState); }  
+        });
+    });
+ });
+function closeDialog(){
+	 $('#popupDialog').dialog('close')
+}
+</script>

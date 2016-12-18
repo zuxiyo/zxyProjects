@@ -3,10 +3,6 @@
 <@header title="行政区划管理">
 	<link href="//cdn.bootcss.com/datatables/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
 	<script src="//cdn.bootcss.com/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
-	
-	<script src="//cdn.bootcss.com/zTree.v3/3.5.24/js/jquery.ztree.all.js"></script>
-	<link href="//cdn.bootcss.com/zTree.v3/3.5.24/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet">
-	
 	<script src="/libs/dataTables/dataTablesUitl.js"></script>
 </@header>
 <@body>
@@ -72,7 +68,7 @@ var _dataTable;
 
 $(document).ready(function() {
     $("#btnAdd").click( function () {
-        $("#popupDialog").load('addView').dialog({
+        $("#popupDialog").load('newView').dialog({
         	height: 570,
             width: 700,
             title: '新增行政区划',

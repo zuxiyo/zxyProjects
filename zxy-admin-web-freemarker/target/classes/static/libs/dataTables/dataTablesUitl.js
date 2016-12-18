@@ -29,3 +29,60 @@ zxy.admin.DataTables.createOption = function(ajaxUrl,idName,orderIdJson,columns)
 	return option;
 };
 
+//获得指定表格的选择行数据
+zxy.admin.DataTables.getSelectedIds = function(_dataTable){
+	
+	var rows = _dataTable.rows().nodes();
+	var checkboxes = $('input[type="checkbox"]', rows);
+	
+	var ids = [];
+	for(var i = 0; i < checkboxes.length; i++){
+		if(checkboxes[i].checked){
+			ids.push($(checkboxes[i]).val());
+		}
+	}
+	return ids;
+}
+
+//打开一个对话框
+zxy.admin.DataTables.loadDialog = function(url,containerId,title,width,height){
+	$("#" + containerId).load(url).dialog({    
+        "width": width,
+        "height": height,
+        "title": title,
+        "modal": true,
+        "position": {
+            "my": 'center',
+            "at": 'center'
+        }
+    });
+}
+//删除一条记录
+zxy.admin.DataTables.deleteOne = function(url,callback) {
+	if (confirm("确定删除吗?")) {
+		$.ajax({
+			"type" : "POST",
+			"url" : url,
+			success : function(result) {
+				if (result.success)
+					callback();
+				else
+					alert("error：" + result.message);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("error：" + XMLHttpRequest.readyState);
+			}
+		});
+	}
+}
+//删除一页记录
+zxy.admin.DataTables.deletePageAll = function(url,callback){
+	var ids = zxy.admin.DataTables.getSelectedIds(_dataTable);
+	if(ids == null || ids.length == 0)
+		alert("请选择要删除的记录！");
+	else{
+		url = url + ids;
+		//console.log(url);
+		this.deleteOne(url,callback);
+	}
+}

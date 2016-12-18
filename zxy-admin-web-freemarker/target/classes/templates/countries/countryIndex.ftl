@@ -44,16 +44,7 @@ var _dataTable;
 
 $(document).ready(function() {
     $("#btnAdd").click( function () {
-        $("#popupDialog").load('addView').dialog({
-            height: 370,
-            width: 600,
-            title: '新增国家或地区',
-            modal: true,
-            position: {
-                my: 'center',
-                at: 'center'
-            }
-        });
+    	zxy.admin.DataTables.loadDialog("addView","popupDialog","新增国家或地区",600,370);
     });
     
     var columns = [
@@ -88,36 +79,21 @@ $(document).ready(function() {
     	var rows = _dataTable.rows({ 'search': 'applied' }).nodes();
         $('input[type="checkbox"]', rows).prop('checked', this.checked);
     }));
+    
+    $('#btnDelete').on("click",(function(){ 
+    	var url = "delete?countryCode=";
+    	zxy.admin.DataTables.deletePageAll(url,reloadGrid);
+    }));   
 });
 
 function _edit(countryCode){
 	var url = "editView?countryCode=" + countryCode;
-	$("#popupDialog").load(url).dialog({
-        height: 370,
-        width: 600,
-        title: '修改国家或地区',
-        modal: true,
-        position: {
-            my: 'center',
-            at: 'center'
-        }
-    });
+	zxy.admin.DataTables.loadDialog(url,"popupDialog","修改国家或地区",600,370);
 }
+
 function _delete(countryCode){
-	if(confirm("确定删除吗?")){
-		var url = "delete?countryCode=" + countryCode;
-		$.ajax({
-		       type:"POST",
-		       url:url,
-		       success:function(result){
-		    	 if(result.success)
-		       		_dataTable.ajax.reload();
-		    	 else
-		    		 alert("error：" + result.message);
-		       },  
-		       error: function (XMLHttpRequest, textStatus, errorThrown) { alert("error：" + XMLHttpRequest.readyState); } 
-		   });
-	}
+	var url = "delete?countryCode=" + countryCode;
+	zxy.admin.DataTables.deleteOne(url,reloadGrid);
 }
 
 function reloadGrid(){
