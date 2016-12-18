@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -36,16 +37,74 @@ public class DictionaryService {
 	
 	@Autowired
 	private IDictionaryItemsDao dataItemsDao;
+	
+	/**
+	 * 检查 数据字典的种类 是否已存在
+	 * @param categoryCode
+	 * @return 存在 true，不存在 false
+	 */
+	public boolean existsCategory(String categoryCode){
+		DictionaryCategoryInfo model = dataCategoryDao.findOneByCategoryCode(categoryCode);
+		if(model != null){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * 保存一条数据字典的种类
 	 * @param model 数据字典种类信息
+	 * @return addedModel
+	 */
+	public DictionaryCategoryInfo addCategory(DictionaryCategoryInfo model){		
+		DictionaryCategoryInfo addedModel = dataCategoryDao.save(model);
+		return addedModel;		
+	}
+	
+	/**
+	 * 更新一条数据字典的种类
+	 * @param model
+	 */
+	public DictionaryCategoryInfo updateCategory(DictionaryCategoryInfo model) {
+		if (dataCategoryDao.exists(model.getUid())) {
+			DictionaryCategoryInfo updatedModel = dataCategoryDao.save(model);
+			return updatedModel;
+		}
+		return null;
+	}
+	
+	/**
+	 * 获得一个数据字典种类
+	 * @param uid
 	 * @return
 	 */
-	public boolean addCategory(DictionaryCategoryInfo model){		
-		dataCategoryDao.save(model);
-		if(StringUtils.isEmpty(model.getUid()))
-			return false;
-		return true;		
+	public DictionaryCategoryInfo getCategoryEntity(String uid) {
+		return dataCategoryDao.findOne(uid);
+	}
+
+	/**
+	 * 获得同类别代码的数据字典种类
+	 * @param categoryCode
+	 * @return 同类别代码的数据集
+	 */
+	public List<DictionaryCategoryInfo> getCategoryEntityByCategoryCode(String categoryCode) {
+		return dataCategoryDao.findByCategoryCode(categoryCode);
+	}
+	/**
+	 * 删除一批数据字典种类
+	 * @param uid
+	 */
+	public void deleteCategory(String[] uid) {
+		for(String s:uid)
+			deleteCategory(s);
+	}
+
+	/**
+	 * 删除一个数据字典种类
+	 * @param string
+	 */
+	public void deleteCategory(String uid) {
+		 dataCategoryDao.delete(uid);;		
 	}
 	
 	/**
@@ -57,6 +116,31 @@ public class DictionaryService {
 		return page;
 	}
 	
+	/**
+	 * 获得数据字典类别的分页数据
+	 * @param pageIndex 当前页码
+	 * @param pageSize 一页的记录数
+	 * @return 数据字典类别的分页数据
+	 */
+	public Page<DictionaryCategoryInfo> getCategoryPage(int pageIndex, int pageSize) {
+		Pageable pageable = new PageRequest(pageIndex, pageSize); 
+		Page<DictionaryCategoryInfo> page = dataCategoryDao.findAllByOrderBySortAsc(pageable);
+		return page;
+	}
+	
+	/**
+	 * 检查 数据字典 是否已存在
+	 * @param Item
+	 * @return 存在 true，不存在 false
+	 */
+	public boolean existsItem(String categoryCode,String dictionaryCode){
+		
+		List<DictionaryItemInfo> list = getItemEntityByCategoryCodeAndDictionaryCode(categoryCode,dictionaryCode);
+		if(list != null && list.size() > 0){
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * 保存一条数据字典项
@@ -80,13 +164,37 @@ public class DictionaryService {
 	}
 
 	/**
-	 * 
+	 * 获得全部数据字典项
 	 * @param categoryCode
 	 * @return
 	 */
 	public Iterable<DictionaryItemInfo> getItemDataByCategoryCode(String categoryCode) {		
 		Iterable<DictionaryItemInfo> list = dataItemsDao.findByCategoryCodeOrderBySortAsc(categoryCode);
 		return list;
+	}
+	/**
+	 * 使用categoryCode和dictionaryCode 获得数据字典项
+	 * @param categoryCode
+	 * @param dictionaryCode
+	 * @return
+	 */
+	public List<DictionaryItemInfo> getItemEntityByCategoryCodeAndDictionaryCode(String categoryCode, String dictionaryCode) {
+		List<DictionaryItemInfo> list = dataItemsDao.findByCategoryCodeAndDictionaryCodeOrderBySortAsc(categoryCode,dictionaryCode);
+		return list;
+	}
+	
+	/**
+	 * 活动指定页的数据字典项
+	 * @param pageIndex
+	 * @param pageSize
+	 * @param categoryCode
+	 * @return 指定页的数据字典项列表
+	 */
+	public Page<DictionaryItemInfo> getItemPage(int pageIndex, int pageSize, String categoryCode) {
+
+		Pageable pageable = new PageRequest(pageIndex, pageSize); 
+		Page<DictionaryItemInfo> page = dataItemsDao.findByCategoryCodeOrderBySortAsc(pageable, categoryCode);
+		return page;
 	}
 	
 	/**
@@ -117,5 +225,42 @@ public class DictionaryService {
 		}
 		return result;	
 	}
-	
+
+	/**
+	 * 获取一个数据字典
+	 * @param uid
+	 * @return
+	 */
+	public DictionaryItemInfo getItemEntity(String uid) {
+		return dataItemsDao.findOne(uid);
+	}
+
+	/**
+	 * 删除一批数据字典
+	 * @param uid
+	 */
+	public void deleteItem(String[] uid) {
+		for(String s:uid)
+			deleteItem(s);
+	}
+
+	/**
+	 * 删除一个数据字典
+	 * @param string
+	 */
+	public void deleteItem(String uid) {
+		dataItemsDao.delete(uid);
+	}
+
+	/**
+	 * 更新一个数据字典
+	 * @param model
+	 */
+	public DictionaryItemInfo updateItem(DictionaryItemInfo model) {
+		if (dataItemsDao.exists(model.getUid())) {
+			DictionaryItemInfo result = dataItemsDao.save(model);
+			return result;
+		}
+		return null;
+	}
 }
