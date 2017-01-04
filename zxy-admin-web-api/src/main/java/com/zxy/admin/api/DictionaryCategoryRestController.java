@@ -190,7 +190,7 @@ public class DictionaryCategoryRestController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "query", name = "pageIndex", dataType = "int", required = true, value = "当前页码"),
 			@ApiImplicitParam(paramType = "query", name = "pageSize", dataType = "int", required = true, value = "一页的记录数") })
-	@GetMapping("/list")
+	@GetMapping("/get")
 	public ResponseEntity<FromResult> getPage(int pageIndex, int pageSize) {
 		Page<DictionaryCategoryInfo> list = dictService.getCategoryPage(pageIndex,pageSize);
 		

@@ -177,7 +177,7 @@ public class DictionaryItemRestController {
 			@ApiImplicitParam(paramType = "query", name = "pageIndex", dataType = "int", required = true, value = "当前页码"),
 			@ApiImplicitParam(paramType = "query", name = "pageSize", dataType = "int", required = true, value = "一页的记录数"),
 			@ApiImplicitParam(paramType = "query", name = "categoryCode", dataType = "String", required = true, value = "类别代码")})
-	@GetMapping("/list")
+	@GetMapping("/get")
 	public ResponseEntity<FromResult> getPage(int pageIndex, int pageSize,String categoryCode) {		
 		Page<DictionaryItemInfo> list = dictService.getItemPage(pageIndex,pageSize,categoryCode);
 		
