@@ -1,0 +1,87 @@
+<template>
+  <div>
+    <div>
+      <div class="left">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>国家或地区</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="right"><el-button icon="plus " size="small" @click="add">新增</el-button></div>
+    </div>
+    <el-table ref="table" :data="tableData" highlight-current-row class="zxy-table">
+      <el-table-column property="sort" label="#" width="30"></el-table-column>
+      <el-table-column property="countryCode" label="编码" width="120">
+      </el-table-column>
+      <el-table-column property="countryName" label="名称" width="130">
+      </el-table-column>
+      <el-table-column property="fullName" label="完整名称">
+      </el-table-column>
+      <el-table-column property="phoneCode" label="电话区号" width="100">
+      </el-table-column>
+      <el-table-column property="domainName" label="域名" width="70">
+      </el-table-column>
+      <el-table-column property="status" label="状态" v-bind:formatter="setStatus" width="70">
+      </el-table-column>
+      <el-table-column property="remark" label="备注">
+      </el-table-column>
+      <el-table-column :context="_self" inline-template label="操作" width="140">
+          <span>
+            <el-button size="small"  @click="edit($index, row)">编辑</el-button>
+            <el-button size="small"  @click="delete($index, row)">删除</el-button>
+          </span>
+      </el-table-column>
+    </el-table>
+    <div class="right">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes"
+        :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+    </div>
+  </div>
+</template>
+<script>
+  import { mapState,mapGetters, mapActions } from 'vuex'
+
+  export default{
+    computed:mapGetters({
+        tableData: "country/countryDataSet",
+        currentPage:"country/currentPage",
+        total:"country/total",
+        pageSize:"country/pageSize",
+        pageSizes:"country/pageSizes",
+     }),
+
+    created(){
+       this.$store.dispatch("country/getPage")
+    },
+    methods:{
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        console.log(`当前页: ${val}`);
+      },
+      add(){
+         this.$router.push({path:"/dict/item/add"});
+      },
+      edit(index,row){
+          this.$store.dispatch("selectedItemRow",row)
+          this.$router.push({path:"/dict/item/edit",query:{edit:true}});
+      },
+      delete(index,row){
+          let _self = this
+          this.$store.dispatch("selectedItemRow",row)
+          this.$store.dispatch("deleteItem").then(function(){
+             //重新绑定
+             _self.$store.dispatch("getItemPage",_self.$store.getters.categoryCurrentRow)
+          })
+      },
+      setStatus(row,col){
+        if(row.status == true)
+            return "禁用";
+        return "启用";
+      }
+    }
+  }
+</script>

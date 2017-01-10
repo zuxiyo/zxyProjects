@@ -17,7 +17,7 @@
         <el-submenu index="4">
           <template slot="title"><i class="el-icon-setting"></i>系统项设置</template>
           <el-menu-item index="/dict">数据字典</el-menu-item>
-          <el-menu-item index="4-2">国家或地区</el-menu-item>
+          <el-menu-item index="/countries">国家或地区</el-menu-item>
           <el-menu-item index="4-3">行政区划</el-menu-item>
         </el-submenu>
       </el-menu>
@@ -40,14 +40,14 @@
   };
 </script>
 
-  
+
 <!--
 <ul id="main-nav" class="nav nav-tabs nav-stacked">
 <li class="active">
   <a href="#">
     <i class="glyphicon glyphicon-th-large"></i> 首页
   </a>
-</li>  
+</li>
 <li>
   <a href="#org-setting" class="nav-header collapsed" data-toggle="collapse">
     <i class="glyphicon glyphicon-cog"></i> 组织机构
@@ -58,7 +58,7 @@
     <li><a href="#"><i class="glyphicon glyphicon-th-list"></i> 部门管理</a></li>
     <li><a href="#"><i class="glyphicon glyphicon-asterisk"></i> 组织管理</a></li>
   </ul>
-</li> 
+</li>
 <li>
   <a href="#permission-setting" class="nav-header collapsed" data-toggle="collapse">
     <i class="glyphicon glyphicon-cog"></i> 权限管理

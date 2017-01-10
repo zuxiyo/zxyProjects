@@ -4,36 +4,48 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
 const http = {
-  get: function (url, params, callback) {
-    Vue.http.get(url, params).then((response) => {
-      callback(response.body);
-    }, (response) => {
-      // error callback
+  get: function (url, params) {
+    var p = new Promise(function(resolve, reject){
+      Vue.http.get(url, params).then((response) => {
+        resolve(response.body);
+      }, (response) => {
+        reject(response.body);
+      });
     });
+    return p;
   },
+
   update: function (url, formData, successCallback, errorCallback) {
-    Vue.http.options.emulateJSON = true
-    Vue.http.put(url, formData).then((response) => {
-      successCallback(response.body);
-    }, (response) => {
-      errorCallback(response.body);
+    return new Promise((resolve, reject) => {
+      Vue.http.options.emulateJSON = true
+      Vue.http.put(url, formData).then((response) => {
+        resolve(response.body);
+      }, (response) => {
+        reject(response.body);
+      });
     });
   },
+
   save: function (url, formData, successCallback, errorCallback) {
     //如果Web服务器无法处理编码为application/json的请求，可以启用emulateJSON选项。启用该选项后
     //请求会以application/x-www-form-urlencoded作为MIME type，就像普通的HTML表单一样。
-    Vue.http.options.emulateJSON = true
-    Vue.http.post(url, formData).then((response) => {
-      successCallback(response.body);
-    }, (response) => {
-      errorCallback(response.body);
+    return new Promise((resolve, reject) => {
+      Vue.http.options.emulateJSON = true
+      Vue.http.post(url, formData).then((response) => {
+        resolve(response.body);
+      }, (response) => {
+        reject(response.body);
+      });
     });
   },
+
   delete: function (url, params, successCallback, errorCallback) {
-    Vue.http.delete(url, params).then((response) => {
-      successCallback(response.body);
-    }, (response) => {
-      errorCallback(response.body);
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(url, params).then((response) => {
+        resolve(response.body);
+      }, (response) => {
+        reject(response.body);
+      });
     });
   }
 }

@@ -24,12 +24,14 @@ body {
   position: relative;
 }
 
-
-
 .small-box {
   padding: 24px;
   width: 440px;
   display: block;
+}
+
+.zxy-table {
+  margin: 15px 0;
 }
 
 /*

@@ -1,6 +1,5 @@
 import  {Server} from "./config/serverUrl.js"
-import  Pageable  from "./config/pageArgs.js"
-import  Http from "./config/http.js";
+import  Http from "./config/http-callback.js";
 
 /**
  * 数据字典服务端方法
@@ -14,7 +13,7 @@ class DictService {
         var options = {
           params: { pageIndex: currentPage, pageSize:pageSize }
         }
-        Http.get(Server.Dict_Category_List_Url,options,callback)
+        Http.get(Server.Dict_Category_Page_Url,options,callback)
     }
 
     /**
@@ -24,14 +23,14 @@ class DictService {
         var options = {
           params: { pageIndex: currentPage, pageSize:pageSize,categoryCode:categoryInfo.categoryCode}
         }
-        Http.get(Server.Dict_Item_List_Url,options,callback)
+        Http.get(Server.Dict_Item_Page_Url,options,callback)
     }
 
     /**
      * 新增类别数据
      */
     addCategory(formData, successCallback, errorCallback){
-      Http.save(Server.Dict_Category_create_Url,formData, successCallback, errorCallback)
+      Http.save(Server.Dict_Category_Create_Url,formData, successCallback, errorCallback)
     }
     /**
      * 修改类别数据
@@ -53,7 +52,7 @@ class DictService {
      * 新增字典项数据
      */
     addItem(formData, successCallback, errorCallback){
-      Http.save(Server.Dict_Item_create_Url,formData, successCallback, errorCallback)
+      Http.save(Server.Dict_Item_Create_Url,formData, successCallback, errorCallback)
     }
     /**
      * 修改字典项数据
@@ -72,4 +71,4 @@ class DictService {
     }
 }
 
-export default new DictService;
+export default new DictService()

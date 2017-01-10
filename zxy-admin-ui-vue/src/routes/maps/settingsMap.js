@@ -34,4 +34,10 @@ export default [{
   component(resolve) {
 
   }
+},{
+  path: "/countries",
+  name: "countries",
+  component: function (resolve) {
+    require(["../../views/countries/countryIndex.vue"], resolve)
+  }
 }]
