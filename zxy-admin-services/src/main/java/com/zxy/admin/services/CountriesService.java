@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.zxy.admin.dao.ICountriesDao;
 import com.zxy.admin.entities.CountryInfo;
+import com.zxy.admin.entities.DictionaryCategoryInfo;
 
 /**
  * 国家或地区设置业务层
@@ -119,5 +120,17 @@ public class CountriesService {
 		Order[] order = { new Order(Direction.ASC,"countryCode"), new Order(Direction.ASC,"sort")};
 		Sort sort = new Sort(order);
 		return countryDao.findAll(sort);
+	}
+
+	/**
+	 * 按页获得国家/地区列表
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<CountryInfo> getPageList(int pageIndex, int pageSize) {
+		Pageable pageable = new PageRequest(pageIndex, pageSize); 
+		Page<CountryInfo> page = countryDao.findAllByOrderBySortAsc(pageable);
+		return page;
 	}
 }
