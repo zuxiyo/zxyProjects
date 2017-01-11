@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div  class="page-header clearfix">
       <div class="left">
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -10,7 +10,7 @@
       <div class="right"><el-button icon="plus " size="small" @click="add">新增</el-button></div>
     </div>
     <el-table ref="table" :data="tableData" highlight-current-row class="zxy-table">
-      <el-table-column property="sort" label="#" width="30"></el-table-column>
+      <el-table-column property="sort" label="#" width="60"></el-table-column>
       <el-table-column property="countryCode" label="编码" width="120">
       </el-table-column>
       <el-table-column property="countryName" label="名称" width="130">
@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-  import { mapState,mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default{
     computed:mapGetters({
@@ -63,11 +63,11 @@
         console.log(`当前页: ${val}`);
       },
       add(){
-         this.$router.push({path:"/dict/item/add"});
+         this.$router.push({path:"/countries/add"});
       },
       edit(index,row){
           this.$store.dispatch("selectedItemRow",row)
-          this.$router.push({path:"/dict/item/edit",query:{edit:true}});
+          this.$router.push({path:"/countries/edit",query:{edit:true}});
       },
       delete(index,row){
           let _self = this

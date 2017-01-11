@@ -8,6 +8,7 @@ export default {
  * 定义模块,可以使用同名的方法和函数
  */
   state:{
+    _formData:{},
     _countryDataSet: [],
     _currentPage:PAGEABLE.PAGE_INDEX,
     _total:0,
@@ -16,6 +17,7 @@ export default {
   },
 
   getters:{
+    ["country/formData"]:state => state._formData,
     ["country/countryDataSet"]: state => state._countryDataSet,
     ["country/currentPage"]: state => state._currentPage,
     ["country/total"]: state => state._total,
@@ -29,11 +31,11 @@ export default {
      */
     ["country/getPage"](context) {
       countryServer.getPage(context.state._currentPage, context.state._pageSize)
-        .then(function (body) {
-          context.commit("COUNTRY_PAGE", body)
+        .then(function (responseBody) {
+          context.commit("COUNTRY_PAGE", responseBody)
         })
-        .catch(function (body) {
-          context.commit("ERROR", body)
+        .catch(function (responseBody) {
+          context.commit("ERROR", responseBody)
         })
     },
     /**
@@ -45,8 +47,15 @@ export default {
     /**
      * 新增数据
      */
-    create(context) {
-
+    ["country/create"](context) {
+      let formData = context.state._formData;
+      countryServer.create(formData)
+      .then(function(responseBody){
+         context.commit("COUNTRY_CREATED", responseBody)
+      })
+      .catch(function (responseBody) {
+          context.commit("ERROR", responseBody)
+      })
     },
     /**
      * 更新数据
@@ -73,7 +82,7 @@ mutations: {
     },
 
     [types.COUNTRY_CREATED](state, responseBody) {
-
+      Message.success(responseBody.message);
     },
 
     [types.COUNTRY_UPDATED](state, responseBody) {
@@ -89,7 +98,3 @@ mutations: {
     }
   }
 }
-
-//export default {
- // Country
-//}

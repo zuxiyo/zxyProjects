@@ -15,11 +15,6 @@ export default [{
     require(["../../views/dictionary/dictCategoryEdit.vue"], resolve)
   }
 }, {
-  path: "/dict/category/delete",
-  component(resolve) {
-
-  }
-}, {
   path: "/dict/item/add",
   component: function (resolve) {
     require(["../../views/dictionary/dictItemEdit.vue"], resolve)
@@ -39,5 +34,15 @@ export default [{
   name: "countries",
   component: function (resolve) {
     require(["../../views/countries/countryIndex.vue"], resolve)
+  }
+},{
+  path: "/countries/add",
+  component: function (resolve) {
+    require(["../../views/countries/countryEdit.vue"], resolve)
+  }
+},{
+  path: "/countries/edit",
+  component: function (resolve) {
+    require(["../../views/countries/countryEdit.vue"], resolve)
   }
 }]

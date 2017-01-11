@@ -8,6 +8,18 @@ body {
   margin: 0;
 }*/
 
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
 
 /*左对齐*/
 
@@ -24,15 +36,31 @@ body {
   position: relative;
 }
 
+.page-header {
+  display: block;
+  margin-bottom: 15px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #eaeefb;
+}
+
 .small-box {
-  padding: 24px;
   width: 440px;
+  display: block;
+}
+
+.middle-box {
+  width: 800px;
   display: block;
 }
 
 .zxy-table {
   margin: 15px 0;
 }
+
+.text-center {
+  text-align: center;
+}
+
 
 /*
   .main-nav {
