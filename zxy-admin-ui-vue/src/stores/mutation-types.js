@@ -1,5 +1,9 @@
 
 export const ERROR = 'ERROR'
+export const SET_PAGE_SIZE = 'SET_PAGE_SIZE'
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+export const SET_FORM_DATA = 'SET_FORM_DATA'
+export const RESET_FORM = 'RESET_FORM'
 
 export const DICT_GET_CATEGORY_LIST = 'DICT_GET_CATEGORY_LIST'
 export const DICT_GET_ITEM_LIST = 'DICT_GET_ITEM_LIST'

@@ -11,17 +11,17 @@ var ServerUrlConfig = {
 
   //字典项操作
   Dict_Item_Page_Url:   _SERVER_ROOT_URL + "dict/item/get",
-  Dict_Item_Get_Url:    _SERVER_ROOT_URL + "dict/item/get{/uid}}",
+  Dict_Item_Get_Url:    _SERVER_ROOT_URL + "dict/item/get{/uid}",
   Dict_Item_Create_Url: _SERVER_ROOT_URL + "dict/item/create",
   Dict_Item_Update_Url: _SERVER_ROOT_URL + "dict/item/update",
   Dict_Item_Delete_Url: _SERVER_ROOT_URL + "dict/item/delete{/uid}",
 
   //国家或地区操作
   Country_Page_Url:   _SERVER_ROOT_URL + "countries/get",
-  Country_Get_Url:    _SERVER_ROOT_URL + "countries/get{/uid}}",
+  Country_Get_Url:    _SERVER_ROOT_URL + "countries/get{/countryCode}",
   Country_Create_Url: _SERVER_ROOT_URL + "countries/create",
   Country_Update_Url: _SERVER_ROOT_URL + "countries/update",
-  Country_Delete_Url: _SERVER_ROOT_URL + "countries/delete{/uid}",
+  Country_Delete_Url: _SERVER_ROOT_URL + "countries/delete{/countryCode}",
 }
 
 export { ServerUrlConfig as Server };

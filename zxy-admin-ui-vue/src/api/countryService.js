@@ -16,8 +16,12 @@ class CountryServer {
    * @memberOf CountryServer
    */
   getPage(currentPage, pageSize) {
+    //服务端分页是从0开始，elementUI 是从1开始，在这里需要减一
+    if(currentPage > 0)
+      currentPage = currentPage - 1
+
     var options = {
-      params: { pageIndex: currentPage, pageSize: pageSize }
+      params: { currentPage: currentPage, pageSize: pageSize }
     }
 
     var p = new Promise((resolve, reject) => {
@@ -70,7 +74,7 @@ class CountryServer {
    */
   update(formData) {
      var p = new Promise((resolve, reject) => {
-      Http.save(Server.Country_Update_Url, formData)
+      Http.update(Server.Country_Update_Url, formData)
         .then(function (body) {
           resolve(body)
         })
@@ -84,8 +88,8 @@ class CountryServer {
   /**
    * 删除数据
    */
-  delete(id) {
-    var options = { params: { id: id } }
+  delete(code) {
+    var options = { params: { countryCode: code } }
 
     var p = new Promise((resolve, reject) => {
       Http.delete(Server.Country_Delete_Url, options)

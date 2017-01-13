@@ -27,6 +27,6 @@ export default new Vuex.Store({
       }
     }
   },
-  //strict: debug,
-  strict: false,  //不启用严格模式
+  strict: debug,
+  //strict: false,  //不启用严格模式
 })

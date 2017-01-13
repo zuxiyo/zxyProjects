@@ -11,7 +11,7 @@ class DictService {
      */
     getCategoryPage(currentPage,pageSize,callback) {
         var options = {
-          params: { pageIndex: currentPage, pageSize:pageSize }
+          params: { currentPage: currentPage, pageSize:pageSize }
         }
         Http.get(Server.Dict_Category_Page_Url,options,callback)
     }
@@ -21,7 +21,7 @@ class DictService {
      */
     getItemPage(currentPage,pageSize,categoryInfo,callback) {
         var options = {
-          params: { pageIndex: currentPage, pageSize:pageSize,categoryCode:categoryInfo.categoryCode}
+          params: { currentPage: currentPage, pageSize:pageSize,categoryCode:categoryInfo.categoryCode}
         }
         Http.get(Server.Dict_Item_Page_Url,options,callback)
     }

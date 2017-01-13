@@ -1,11 +1,11 @@
 
 const Pageable = {
   //起始页
-  PAGE_INDEX: 0,
+  CURRENT_PAGE: 1,
   //一页的记录数
-  PAGE_SIZE: 20,
+  PAGE_SIZE: 5,
   //
-  PAGE_SIZES: [20, 30, 40]
+  PAGE_SIZES: [5, 30, 40]
 }
 export default Pageable
 
